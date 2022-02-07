@@ -1,2 +1,5 @@
 jupyterlab==3.2.9
-
+matplotlib==3.5.1
+numpy==1.22.2
+rasterio==1.2.10
+torch==1.10.2
