@@ -1,3 +1,8 @@
+env_fill_low_alpha/
+.jupyter/
+
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
