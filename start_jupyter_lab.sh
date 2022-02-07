@@ -3,6 +3,9 @@
 
 VENV_NAME=env_fill_low_alpha
 
+if [ ! -z "`which git`" ];then
+	git update-index --assume-unchanged lib/boundary_pixel_extend.py lib/__init__.py  __init__.py
+fi
 
 
 SELF="$(readlink -f "$0")"

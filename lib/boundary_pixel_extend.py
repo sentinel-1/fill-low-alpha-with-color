@@ -33,7 +33,7 @@ class FillLowAlphaWithColor(torch.nn.Module):
         self.kernel_size = kernel_size
         
         if self.gpu and torch.cuda.is_available():
-            self.device = torch.device("cuda")
+            self.device = torch.device(f'cuda:{torch.cuda.current_device()}')
         else:
             self.device = torch.device("cpu")
         
@@ -44,7 +44,7 @@ class FillLowAlphaWithColor(torch.nn.Module):
         
         
         # Fill low alpha areas with colors from high alpha areas:
-        raise Exception("ARS")
+        raise Exception("DIY")
         
         
         return image, mask
