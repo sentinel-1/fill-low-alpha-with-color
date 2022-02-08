@@ -15,7 +15,7 @@ class FillLowAlphaWithColor(torch.nn.Module):
         pixel_chunk_size int:  Maximum how many pixels to process at one step, higher value will be faster but requires more memory.
         kernel_size      int:  Size of erosion kernel used to reduce the area from which are the fill colors taken, value must be a positive odd number,
                                if `kernel_size` value is 1 then kernel is not used, if `kernel_size` > 1, then kernel of the given size is used.
-        copy            bool:  If True makes a copy of the input image and makes updates in the copy, otherwise it will alter the input image.
+        copy            bool:  If True makes a copy of the input image and makes updates in the copy, otherwise it will alter the input image in place.
     """
 
     def __init__(self,
