@@ -46,7 +46,7 @@ else:
 
 def visualize_result(image_arr, result_arr, mask_arr, image_name):
     fontdict = {'color':'white', 'fontsize':14, 'fontweight':'bold'}
-    fig,ax = plt.subplots(nrows=2, ncols=2,figsize=(24,18), )
+    fig,ax = plt.subplots(nrows=2, ncols=2, figsize=(16,16))
     fig.set_facecolor("black")
     for row in ax:
         for ax_i in row:
@@ -90,7 +90,6 @@ for USE_GPU in (False, True,):
         
     transform = FillLowAlphaWithColor(gpu=USE_GPU)
     # print("INFO: Using image transformer: ", transform, flush=True)
-    transform = torch.jit.script(transform)
 
 
     n_img_processed = 0
@@ -106,6 +105,7 @@ for USE_GPU in (False, True,):
             mask_arr = img.read()
         image_arr = torch.as_tensor(image_arr)
         mask_arr = torch.as_tensor(mask_arr.squeeze())
+        orig_image_arr = image_arr.clone().detach()
 
         if image_arr.shape[-2:] != mask_arr.shape:
             print(f"ERROR: {sample_dir}:"
@@ -119,8 +119,8 @@ for USE_GPU in (False, True,):
 
         result_arr, mask_arr = transform(image_arr, mask_arr)
 
-        n_img_processed += 1
         processing_end_time = datetime.now()
+        n_img_processed += 1
         processing_td = processing_end_time - processing_start_time
         processing_time_total += processing_td
         stats[sample_dir.stem] = processing_td
@@ -130,7 +130,7 @@ for USE_GPU in (False, True,):
             max_td = processing_td
         print(f"INFO: {sample_dir}: Done. Image processing time on {'GPU' if USE_GPU and torch.cuda.is_available() else 'CPU'}: {processing_td}", flush=True)
 
-        visualize_result(image_arr, result_arr, mask_arr, image_name=sample_dir.stem)
+        visualize_result(orig_image_arr, result_arr, mask_arr, image_name=sample_dir.stem)
 
     print(f"INFO: Processed {n_img_processed} images", flush=True)
     print(f"INFO: Processing times per sample:", flush=True)
