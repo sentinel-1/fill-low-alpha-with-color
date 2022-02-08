@@ -2,7 +2,8 @@ env_fill_low_alpha/
 .jupyter/
 lib/
 __init__.py
-
+*.orig
+*.bak
 
 
 lib.ipynb
