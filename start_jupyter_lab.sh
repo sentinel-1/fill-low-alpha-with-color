@@ -7,8 +7,7 @@ if [ ! -z "`which git`" ];then
 	git update-index --assume-unchanged lib/boundary_pixel_extend.py lib/__init__.py  __init__.py
 fi
 
-
-SELF="$(readlink -f "$0")"
+SELF=$(python3 -c "import os; print(os.path.realpath('${BASH_SOURCE[0]}'))")
 SCRIPT_DIR="$(dirname "${SELF}")"
 SCRIPT_DIR_NAME="`basename ${SCRIPT_DIR}`"
 ENV_BIN="${SCRIPT_DIR}/${VENV_NAME}/bin/"
