@@ -7,6 +7,12 @@ if [ ! -z "`which git`" ];then
 	git update-index --assume-unchanged lib/boundary_pixel_extend.py lib/__init__.py  __init__.py
 fi
 
+
+if [ -z "`which python3`" ];then
+	echo "Is Python 3 installed in your system?" >&2
+	exit 1
+fi
+
 SELF=$(python3 -c "import os; print(os.path.realpath('${BASH_SOURCE[0]}'))")
 SCRIPT_DIR="$(dirname "${SELF}")"
 SCRIPT_DIR_NAME="`basename ${SCRIPT_DIR}`"
@@ -14,6 +20,7 @@ ENV_BIN="${SCRIPT_DIR}/${VENV_NAME}/bin/"
 ROOT_DIR="$(dirname "${SCRIPT_DIR}")"
 
 export JUPYTER_CONFIG_DIR="${SCRIPT_DIR}/.jupyter"
+
 
 if [[ ! -d "${ENV_BIN}" ]];then
 	rm -rf "${JUPYTER_CONFIG_DIR}"
@@ -99,8 +106,9 @@ c.FileContentsManager.post_save_hook = script_post_save
 
 
 EOF
-	sed -i 's/^.*\(c.ServerApp.max_body_size.*=.*[0-9]\).*$/\10/g' "${JUPYTER_CONFIG_DIR}/jupyter_lab_config.py" &&
-	sed -i 's/^.*\(c.ServerApp.max_buffer_size.*=.*[0-9]\).*$/\10/g' "${JUPYTER_CONFIG_DIR}/jupyter_lab_config.py" || exit 5
+	sed -i.bak 's/^.*\(c.ServerApp.max_body_size.*=.*[0-9]\).*$/\10/g' "${JUPYTER_CONFIG_DIR}/jupyter_lab_config.py" &&
+	sed -i.bak 's/^.*\(c.ServerApp.max_buffer_size.*=.*[0-9]\).*$/\10/g' "${JUPYTER_CONFIG_DIR}/jupyter_lab_config.py" &&
+	rm -f "${JUPYTER_CONFIG_DIR}/jupyter_lab_config.py.bak" || exit 5
 	
 
 fi
